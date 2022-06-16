@@ -35,7 +35,7 @@ public class User {
 	@CreationTimestamp // 시간이 자동으로 입력된다
 	private Timestamp createDate;
 
-	// Domain - 데이터의 범주화 (User, user 등 잘못입력)
+	// Domain - 데이터의 범주화 (User, user 등 잘못입력 방지)
 	@ColumnDefault("'user'")
 	private String role; // Enum 타입 사용 권장 : admin, user, manager
 }
