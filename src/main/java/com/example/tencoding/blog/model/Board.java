@@ -1,6 +1,7 @@
 package com.example.tencoding.blog.model;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -43,5 +45,14 @@ public class Board {
 
 	@CreationTimestamp
 	private Timestamp createDate;
+	
+	// 댓글 정보
+	// 하나의 게시글에 여러 개의 댓글이 있을 수 있다.
+	// one = board, many = reply
+	// mappedBy = "board" board는 reply 테이블의 필드 이름이다.
+	// mappedBy는 연관관계의 주인이 아니다 (FK)
+	// DB에 컬럼을 만들지 마시오
+	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER) // LAZY 필요할 때 요청해서 들고올 수 있다
+	private List<Reply> reply;
 
 }
