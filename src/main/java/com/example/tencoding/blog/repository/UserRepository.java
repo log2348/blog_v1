@@ -8,5 +8,9 @@ import com.example.tencoding.blog.model.User;
 // Bean으로 등록될 수 있나요? --> 스프링에서 Ioc에서 객체를 가지고 있나요?
 public interface UserRepository extends JpaRepository<User, Integer>{
 	
+	// insert
+	// select
+	// update
+	// delete
 
 }
