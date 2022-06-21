@@ -6,28 +6,48 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		/*
-		$("#hide").click(function() {
-			$("p").hide();
+		
+		$(".ex .hide2").click(function() {
+			$(this).parents(".ex").hide("slow");
 		});
-
-		$("#show").click(function() {
-			$("p").show();
-		});
-		*/
-		$("button").click(function() {
-			$("p").toggle();
+		
+		$(".ex .hide").click(function() {
+			$(this).parents(".ex").hide();
 		});
 		
 	});
 
 </script>
+<style type="text/css">
+	div.ex {
+		background-color: #e5eecc;
+		padding: 10px;
+		border: solid 1px #c3c3c3;
+	}
+
+</style>
 </head>
 <body>
 
-	<p> HIDE, SHOW </p>
+	<h3>Island Trading</h3>
 	
-	<button type="button">toggle</button>
+	<div class="ex">
+		<button class="hide">Hide me</button>
+		<p>contact : Marie Bertrand<br/>
+			255 ...
+		</p>
+	
+	</div>
+	
+	<h3>Paris Trading</h3>
+	
+	<div class="ex">
+			<button class="hide2">Hide me</button>
+		<p>contact : Test... <br/>
+			555 ...
+		</p>
+	</div >
+
 		
 </body>
 </html>
