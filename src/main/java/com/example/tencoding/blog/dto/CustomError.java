@@ -1,4 +1,4 @@
-package com.example.tencoding.blog.model;
+package com.example.tencoding.blog.dto;
 
 import lombok.Data;
 
