@@ -27,7 +27,7 @@
       <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav">
           <c:choose>
-            <c:when test="${empty sessionScope.pricipal}">
+            <c:when test="${empty sessionScope.principal}">
               <li class="nav-item">
                 <a class="nav-link" href="/blog/user/login_form">로그인</a>
               </li>
