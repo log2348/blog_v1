@@ -19,6 +19,9 @@ public class UserApiController {
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+	HttpSession httpSession;
+	
 	@PostMapping("/api/user")
 	public ResponseDto<Integer> save(@RequestBody User user) {
 		// DB (Validation)
@@ -29,7 +32,7 @@ public class UserApiController {
 	}
 	
 	@PostMapping("/api/user/login")
-	public ResponseDto<Integer> login(@RequestBody User user, HttpSession session) {
+	public ResponseDto<Integer> login(@RequestBody User user) {
 		// Controller -> Service에게 요청
 		System.out.println("login 호출됨");
 
@@ -37,7 +40,7 @@ public class UserApiController {
 		User principal = userService.login(user);
 		// 접근 주체가 정상적으로 username과 password 확인 ! (세션이라는 거대한 메모리에 저장)
 		if (principal != null) {
-			session.setAttribute("principal", principal);
+			httpSession.setAttribute("principal", principal);
 			System.out.println("세션 정보가 저장 되었습니다.");
 		}
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
