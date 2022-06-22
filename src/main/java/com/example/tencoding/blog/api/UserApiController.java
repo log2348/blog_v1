@@ -17,10 +17,10 @@ import com.example.tencoding.blog.service.UserService;
 public class UserApiController {
 	
 	@Autowired
-	UserService userService;
+	private UserService userService;
 	
 	@Autowired
-	HttpSession httpSession;
+	private HttpSession httpSession;
 	
 	@PostMapping("/api/user")
 	public ResponseDto<Integer> save(@RequestBody User user) {
