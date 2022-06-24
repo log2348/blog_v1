@@ -1,9 +1,11 @@
 package com.example.tencoding.blog.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.tencoding.blog.model.RoleType;
 import com.example.tencoding.blog.model.User;
 import com.example.tencoding.blog.repository.UserRepository;
 
@@ -30,14 +32,17 @@ public class UserService {
 	@Autowired // 초기화 처리까지 되는 것
 	private UserRepository userRepository;
 	
+	@Autowired
+	private BCryptPasswordEncoder encoder;
+	
 	@Transactional
 	public int saveUser(User user) {
-		// insert
-		// select
-		// update
-		// delete
 		// 이런 것들을 묶는 하나의 기능을 만들 때
 		try {
+			String rawPassword = user.getPassword();
+			String encPassword = encoder.encode(rawPassword);		
+			user.setPassword(encPassword);
+			user.setRole(RoleType.USER);
 			userRepository.save(user); // Service -> Repository
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -45,7 +50,7 @@ public class UserService {
 		}
 		return 1;
 		
-	}
+	}	
 	
 	/*
 	@Transactional(readOnly = true)

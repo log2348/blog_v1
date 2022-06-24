@@ -3,11 +3,9 @@ package com.example.tencoding.blog.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.tencoding.blog.dto.ResponseDto;
-import com.example.tencoding.blog.model.RoleType;
 import com.example.tencoding.blog.model.User;
 import com.example.tencoding.blog.service.UserService;
 
@@ -43,10 +41,11 @@ public class UserApiController {
 	}
 	*/
 	
+	// @ResponseBody JSON 방식으로 데이터를 받겠다
+	
 	@PostMapping("/auth/joinProc")
-	public ResponseDto<Integer> save(@RequestBody User user) {
-		
-		user.setRole(RoleType.USER);
+	// 스프링 부트 기본 데이터 파싱 전략 key=value
+	public ResponseDto<Integer> save(User user) {
 		int result = userService.saveUser(user);
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), result);
 	}
