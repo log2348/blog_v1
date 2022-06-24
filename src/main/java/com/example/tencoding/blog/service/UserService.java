@@ -39,17 +39,19 @@ public class UserService {
 		// 이런 것들을 묶는 하나의 기능을 만들 때
 		try {
 			userRepository.save(user); // Service -> Repository
-			return 1;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return -1;
 		}
+		return 1;
 		
 	}
 	
+	/*
 	@Transactional(readOnly = true)
 	public User login(User user) {
 		// repository select 요청
 		return userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
 	}
+	*/
 }
