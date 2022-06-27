@@ -17,15 +17,20 @@ public class BoardService {
 	private BoardRepository boardRepository;
 	
 	@Transactional
-	public void write(Board board, User user) { // title,content
+	public void write(Board board, User user) { // title, content
 		board.setCount(0);
 		board.setUserId(user);
 		boardRepository.save(board);
 	}
 	
-	@Transactional
 	public Page<Board> getBoardList(Pageable pageable) {
 		return boardRepository.findAll(pageable);
+	}
+	
+	public Board boardDetail(int boardId) {
+		return boardRepository.findById(boardId).orElseThrow(() -> {
+			return new IllegalArgumentException("해당 게시글은 찾을 수 없습니다.");
+		});
 	}
 
 }
