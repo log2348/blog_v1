@@ -39,5 +39,15 @@ public class BoardService {
 	public void deleteById(int id) {
 		boardRepository.deleteById(id);
 	}
+	
+	@Transactional
+	public void modifyBoard(int id, Board board) { // title, content
+		Board boardEntity = boardRepository.findById(id).orElseThrow(() -> {
+			return new IllegalArgumentException("해당 게시글은 찾을 수 없습니다.");
+		});
+		boardEntity.setTitle(board.getTitle());
+		boardEntity.setContent(board.getContent());
+		// 더티체킹 - @Transactional만 걸어주면 됨
+	}
 
 }
