@@ -48,8 +48,7 @@ public class UserService {
 			e.printStackTrace();
 			return -1;
 		}
-		return 1;
-		
+		return 1;		
 	}	
 	
 	/*

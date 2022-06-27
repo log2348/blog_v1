@@ -1,0 +1,24 @@
+package com.example.tencoding.blog.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.tencoding.blog.model.Board;
+import com.example.tencoding.blog.model.User;
+import com.example.tencoding.blog.repository.BoardRepository;
+
+@Service
+public class BoardService {
+	
+	@Autowired
+	private BoardRepository boardRepository;
+	
+	@Transactional
+	public void write(Board board, User user) { // title,content
+		board.setCount(0);
+		board.setUserId(user);
+		boardRepository.save(board);
+	}
+
+}
