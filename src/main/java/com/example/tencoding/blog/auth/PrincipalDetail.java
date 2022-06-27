@@ -40,7 +40,7 @@ public class PrincipalDetail implements UserDetails {
 	}
 
 	/**
-	 * 계정이 완료되지 않았는지 리턴한다.
+	 * 계정이 만료되지 않았는지 리턴한다.
 	 * true -> 계정이 만료되지 않은 상태
 	 * false -> 계정이 만료된 유저
 	 */
