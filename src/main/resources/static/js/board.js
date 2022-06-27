@@ -66,8 +66,8 @@ let index = {
 		let boardId = $("#id").val();
 		
 		let data = {
-			title: $("title").val(),
-			content: $("content").val()
+			title: $("#title").val(),
+			content: $("#content").val()
 		}
 		
 		$.ajax({
