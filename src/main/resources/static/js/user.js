@@ -52,7 +52,7 @@ let index = {
 		$.ajax({
 			// 회원 로그인 요청
 			type: "POST",
-			url: "/auth/joinProc",
+			url: "/api/user/login",
 			data: JSON.stringify(data),
 			contentType: "application/json; charset=utf-8",
 			dataType: "json" // 응답 타입			
