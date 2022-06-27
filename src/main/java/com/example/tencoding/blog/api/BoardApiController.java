@@ -25,6 +25,6 @@ public class BoardApiController {
 	public ResponseDto<Integer> save(@RequestBody Board board, @AuthenticationPrincipal PrincipalDetail detail) {
 		boardService.write(board, detail.getUser());
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
-	}	
+	}
 
 }

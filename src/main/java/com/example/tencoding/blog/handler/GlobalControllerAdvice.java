@@ -1,4 +1,4 @@
-package com.example.tencoding.blog;
+package com.example.tencoding.blog.handler;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RestController;
