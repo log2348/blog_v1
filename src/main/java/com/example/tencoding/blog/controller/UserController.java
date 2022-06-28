@@ -3,12 +3,22 @@ package com.example.tencoding.blog.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.tencoding.blog.dto.ResponseDto;
+import com.example.tencoding.blog.model.User;
+import com.example.tencoding.blog.service.UserService;
+
+// 페이지 리턴
 @Controller
 public class UserController {
+	
+	@Autowired
+	private UserService userService;
 	
 	@Autowired
 	private HttpSession httpSession;
@@ -35,5 +45,12 @@ public class UserController {
 	@GetMapping("/user/update_form")
 	public String updateForm() {
 		return "user/update_form";
+	}
+	
+	// 스프링 부트 기본 데이터 파싱 전략 key=value
+	@PostMapping("/auth/joinProc")
+	public String save(User user) {
+		userService.saveUser(user);
+		return "redirect:/";
 	}
 }

@@ -28,9 +28,9 @@ let index = {
 		$.ajax({
 			// 서버측에 회원가입 요청
 			type: "POST",
-			url: "/api/user", // 컨트롤러
-			data: JSON.stringify(data), // 중간언어 필요
-			contentType: "application/json; charset=utf-8",
+			url: "/api/user", // 클라이언트가 http 요청 보낼 서버의 url 주소
+			data: JSON.stringify(data), // 서버로 전송할 데이터 (중간언어 필요)
+			contentType: "application/json; charset=utf-8", // 서버로 보낼 때 데이터 형식 (MIME TYPE)
 			dataType: "json" // 응답이 왔을 때 기본 데이터 타입(Buffered 문자열) => js object 자동 변환
 		}).done(function(data, textStatus, xhr) {
 			// 통신 성공시
@@ -76,6 +76,7 @@ let index = {
 	update: function() {
 		let data = {
 			id: $("#id").val(),
+			username: $("#username").val(),
 			password: $("#password").val(),
 			email: $("#email").val()
 		}
