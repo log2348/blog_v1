@@ -97,7 +97,7 @@ let index = {
 		.fail(function(error) {
 			alert("회원정보 수정에 실패하였습니다.");
 		});
-	} // end of update
+	}
 }
 
 index.init();
