@@ -27,6 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean // 메모리에 미리 올라가있다
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
+    	// IoC 등록
     	return super.authenticationManagerBean();
     }
     

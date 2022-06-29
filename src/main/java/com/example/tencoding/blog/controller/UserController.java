@@ -46,7 +46,6 @@ public class UserController {
 	@Autowired
 	private HttpSession httpSession;
 
-	// .../blog/user/login_form
 	@GetMapping("/auth/login_form")
 	public String loginForm() {		
 		return "user/login_form";
@@ -80,7 +79,7 @@ public class UserController {
 	// @ResponseBody 데이터 리턴, 페이지 리턴x
 	@GetMapping("/auth/kakao/callback")
 	public String kakaoCallback(@RequestParam String code) {
-		// POST -->
+		// POST
 		// 통신 -- 인증서버
 		// Retrofit2
 		// OkHttp
@@ -170,7 +169,7 @@ public class UserController {
 		
 		System.out.println(kakaoUser);
 		
-		// 1. UserService 호출해서 저장 진행
+		// UserService 호출해서 저장 진행
 		// 단, 소셜 로그인 요청자가 이미 가입된 유저라면 저장x
 		
 		User originUser = userService.searchUser(kakaoUser.getUsername());
