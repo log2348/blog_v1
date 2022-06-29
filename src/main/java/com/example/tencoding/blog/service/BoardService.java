@@ -7,14 +7,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.tencoding.blog.model.Board;
+import com.example.tencoding.blog.model.Reply;
 import com.example.tencoding.blog.model.User;
 import com.example.tencoding.blog.repository.BoardRepository;
+import com.example.tencoding.blog.repository.ReplyRepository;
 
 @Service
 public class BoardService {
 	
 	@Autowired
 	private BoardRepository boardRepository;
+	
+	@Autowired
+	private ReplyRepository replyRepository;
 	
 	@Transactional
 	public void write(Board board, User user) { // title, content
@@ -48,6 +53,21 @@ public class BoardService {
 		boardEntity.setTitle(board.getTitle());
 		boardEntity.setContent(board.getContent());
 		// 더티체킹 - @Transactional만 걸어주면 됨
+	}
+
+	@Transactional
+	public void writeReply(User user, int boardId, Reply requestReply) {
+		
+		// 영속화 처리
+        Board boardEntity = boardRepository.findById(boardId).orElseThrow(() -> {
+            return new IllegalArgumentException("댓글 저장 실패. 게시글이 존재하지 않습니다.");
+        });
+        
+        requestReply.setUser(user);
+        requestReply.setBoard(boardEntity);
+        
+        replyRepository.save(requestReply);
+    
 	}
 
 }
