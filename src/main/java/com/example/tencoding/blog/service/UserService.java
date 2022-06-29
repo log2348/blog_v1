@@ -65,7 +65,17 @@ public class UserService {
 		userEntity.setPassword(hashPassword);
 		userEntity.setEmail(user.getEmail());
 		// 더티체킹 (@Transactional)
-	}	
+	}
+	
+	// 가입된 사용자인지 확인
+	// readOnly = true : select일 경우
+	@Transactional(readOnly = true)
+	public User searchUser(String username) {
+		User userEntity = userRepository.findByUsername(username).orElseGet(() -> {
+			return new User();
+		});
+		return userEntity;
+	}
 	
 	/*
 	@Transactional(readOnly = true)

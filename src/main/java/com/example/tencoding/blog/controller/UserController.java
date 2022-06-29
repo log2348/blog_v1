@@ -3,10 +3,15 @@ package com.example.tencoding.blog.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -17,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import com.example.tencoding.blog.dto.KakaoProfile;
+import com.example.tencoding.blog.dto.KakaoProfile.KakaoAccount;
 import com.example.tencoding.blog.dto.OAuthToken;
 import com.example.tencoding.blog.model.User;
 import com.example.tencoding.blog.service.UserService;
@@ -27,6 +33,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 // 페이지 리턴
 @Controller
 public class UserController {
+	
+	@Value("${tenco.key}")
+	private String tencoKey;
+	
+	@Autowired
+	private AuthenticationManager authenticationManager;
 	
 	@Autowired
 	private UserService userService;
@@ -65,8 +77,8 @@ public class UserController {
 		return "redirect:/";
 	}
 	
+	// @ResponseBody 데이터 리턴, 페이지 리턴x
 	@GetMapping("/auth/kakao/callback")
-	@ResponseBody
 	public String kakaoCallback(@RequestParam String code) {
 		// POST -->
 		// 통신 -- 인증서버
@@ -130,27 +142,49 @@ public class UserController {
 		// 바디 없이 헤더만 넣기
 		HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest = new HttpEntity<>(headers2);
 				
-		ResponseEntity<String> response2 =
-				rt2.exchange("https://kapi.kakao.com/v2/user/me",
+		// JSON --> Object 파싱하기 (KakaoProfile.class)
+		ResponseEntity<KakaoProfile> kakaoProfileResponse = rt2.exchange("https://kapi.kakao.com/v2/user/me",
 						HttpMethod.POST,
 						kakaoProfileRequest,
-						String.class);
+						KakaoProfile.class);
 		
-		System.out.println(response2);
+		// 소셜 로그인 처리
+		// 사용자가 로그인 했을 경우 최초 사용자라면 -> 회원가입 처리
+		// 한번이라도 가입 진행이 된 사용자라면 -> 로그인 처리
+		// 만약 회원가입시 필요한 정보가 더 있어야 된다면 추가로 사용자한테 정보를 받아서 가입 진행 해야한다
+
+		KakaoAccount account = kakaoProfileResponse.getBody().getKakaoAccount();
+		System.out.println("카카오 아이디 : " + kakaoProfileResponse.getBody().getId());
+		System.out.println("카카오 이메일 : " + account.getEmail());
 		
-		// JSON --> Object 파싱하기 (KakaoProfile.class)
-		KakaoProfile kakaoProfile = null;
-		ObjectMapper objectMapper2 = new ObjectMapper();
-		try {
-			kakaoProfile = objectMapper2.readValue(response2.getBody(), KakaoProfile.class);
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
+		// 블로그 아이디 - 카카오로 로그인시 중복 방지
+		System.out.println("블로그에서 사용될 username : " + account.getEmail() + "_" + kakaoProfileResponse.getBody().getId());
+		System.out.println("블로그에서 사용될 email : " + account.getEmail());
+		
+		User kakaoUser = User.builder()
+				.username(account.getEmail() + "_" + kakaoProfileResponse.getBody().getId())
+				.password(tencoKey) // 절대 노출되면 안됨, 소셜 가입자들은 패스워드가 모두 같다
+				.email(account.getEmail())
+				.oauth("kakao")
+				.build();
+		
+		System.out.println(kakaoUser);
+		
+		// 1. UserService 호출해서 저장 진행
+		// 단, 소셜 로그인 요청자가 이미 가입된 유저라면 저장x
+		
+		User originUser = userService.searchUser(kakaoUser.getUsername());
+		
+		if(originUser.getUsername() == null) {
+			System.out.println("신규 회원이므로 회원가입을 진행");
+			userService.saveUser(kakaoUser);
 		}
 		
-		System.out.println(kakaoProfile);
+		// 자동 로그인 처리 -> 시큐리티 세션에다가 강제 저장
+		Authentication authentication = authenticationManager
+				.authenticate(new UsernamePasswordAuthenticationToken(kakaoUser.getUsername(), tencoKey));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		return "카카오 프로필 정보 요청: " + response2;
+		return "redirect:/";
 	}
 }
