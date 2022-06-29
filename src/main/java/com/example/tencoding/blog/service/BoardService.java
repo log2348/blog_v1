@@ -69,7 +69,7 @@ public class BoardService {
         Reply replyEntity = replyRepository.save(requestReply);
         // System.out.println("데이터 확인 댓글 : " + replyEntity); // 순환참조
     
-        return null;
+        return replyEntity;
 	}
 
 }

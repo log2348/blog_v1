@@ -33,7 +33,7 @@ public class Reply {
 
 	@ManyToOne // 여러 개의 댓글은 하나의 게시글에 존재할 수 있다
 	@JoinColumn(name = "boardId")
-	@JsonIgnoreProperties({"board", "replies", "content", "user", "id", "userId"})
+	@JsonIgnoreProperties({"replies", "userId"})
 	private Board board;
 
 	// 하나의 댓글에 여러 유저가 작성을 할 수 있는가?

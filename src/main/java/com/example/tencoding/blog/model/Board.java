@@ -57,7 +57,7 @@ public class Board {
 	// DB에 컬럼을 만들지 마시오
 	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER)// LAZY - 필요할 때 요청해서 들고올 수 있다
 	@JsonIgnoreProperties({"board", "content"}) // reply 안에 있는 board getter를 무시해라 (getter 호출 안됨)
-	@OrderBy("id desc")
+	@OrderBy("id DESC")
 	private List<Reply> replies;
 
 }

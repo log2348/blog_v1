@@ -49,7 +49,7 @@ public class BoardApiController {
 		
 		// 서비스에 넘겨서 데이터 처리
 		Reply replyEntity = boardService.writeReply(principalDetail.getUser(), boardId, reply);
-		System.out.println("replyEntity : " + replyEntity);
+		// System.out.println("replyEntity : " + replyEntity); // 무한참조
 		return new ResponseDto<Reply>(HttpStatus.OK.value(), replyEntity);
 	}
 	
