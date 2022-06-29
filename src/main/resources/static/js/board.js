@@ -1,5 +1,6 @@
 
 let index = {
+	
 	init: function() {
 		$("#btn-save").bind("click", () => {
 			this.save();
@@ -115,7 +116,9 @@ let index = {
 		})
 		.done(function(response) {
 			if(response.status) {
+				// if문 안에 숫자 들어오면 무조건 타고 있다.
 				// response - int status, T data
+				console.log("if : " + response.status);
 				console.log(response.data);
 				addReplyElement(response.data);
 			}
