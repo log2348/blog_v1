@@ -36,13 +36,15 @@
 		<div class="card-header">댓글 목록</div>
 	</div>
 	<ul class="list-group" id="reply--box">
+		<c:forEach var="reply" items="${board.replies}">
 		<li class="list-group-item d-flex justify-content-between" id="reply--1">
-			<div>댓글 내용</div>
+			<div>${reply.content}</div>
 			<div class="d-flex">
-				<div>작성자 : 유저이름&nbsp;&nbsp;</div> 
+				<div>작성자 : ${reply.user.username}&nbsp;&nbsp;</div> 
 				<button class="badge badge-danger">삭제</button>
 			</div>
 		</li>
+		</c:forEach>
 	</ul>
 
 <br/><br/>
