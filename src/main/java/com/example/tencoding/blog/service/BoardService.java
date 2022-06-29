@@ -56,7 +56,7 @@ public class BoardService {
 	}
 
 	@Transactional
-	public void writeReply(User user, int boardId, Reply requestReply) {
+	public Reply writeReply(User user, int boardId, Reply requestReply) {
 		
 		// 영속화 처리
         Board boardEntity = boardRepository.findById(boardId).orElseThrow(() -> {
@@ -66,8 +66,8 @@ public class BoardService {
         requestReply.setUser(user);
         requestReply.setBoard(boardEntity);
         
-        replyRepository.save(requestReply);
-    
+        Reply replyEntity = replyRepository.save(requestReply);
+        return replyEntity;    
 	}
 
 }
