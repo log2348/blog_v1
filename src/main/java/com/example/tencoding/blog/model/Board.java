@@ -3,6 +3,7 @@ package com.example.tencoding.blog.model;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -55,7 +56,7 @@ public class Board {
 	// mappedBy = "board" board는 reply 테이블의 필드 이름이다.
 	// mappedBy - 나는 연관관계의 주인이 아니다 (FK)
 	// DB에 컬럼을 만들지 마시오
-	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER) // LAZY - 필요할 때 요청해서 들고올 수 있다
+	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE) // LAZY - 필요할 때 요청해서 들고올 수 있다
 	@JsonIgnoreProperties({"board", "content"}) // reply 안에 있는 board getter를 무시해라 (getter 호출 안됨)
 	@OrderBy("id DESC")
 	private List<Reply> replies;
