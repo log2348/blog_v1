@@ -32,11 +32,10 @@
 		    	<li class="page-item"><a class="page-link" href="/?page=${num - 1}">${num}</a></li>    			
     		</c:otherwise>
     	</c:choose>	
-    
     </c:forEach>
 	   
   	<li class="page-item ${pageable.last ? isDisabled : isNotDisabled}">
-  	<a class="page-link" href="/?page=${pageable.number + 1}">Next</a>
+  		<a class="page-link" href="/?page=${pageable.number + 1}">Next</a>
   	</li>	
 </ul>
 <br/>
