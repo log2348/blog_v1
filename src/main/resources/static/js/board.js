@@ -94,7 +94,7 @@ let index = {
 		});
 	},
 	
-		// 댓글 등록
+	// 댓글 등록
 	replySave: function() {
 
 		// 데이터 가져오기 (boardId : 해당 게시글 id)
@@ -128,6 +128,25 @@ let index = {
 			console.log(error);
 		});
 		
+	}, // end of replySave
+	
+	replyDelete: function(boardId, replyId) {
+		
+		$.ajax({
+			type: "DELETE",
+			url: `/api/board/${boardId}/reply/${replyId}`,
+			dataType: "json"
+		})
+		.done(function(response) {
+			console.log(response);
+			alert("댓글 삭제 성공");
+			location.href=`/board/${boardId}`
+		})
+		.fail(function() {
+			console.log(response);
+			alert("댓글 삭제 실패");
+			
+		});
 	}
 	
 }

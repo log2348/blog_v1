@@ -51,4 +51,10 @@ public class BoardApiController {
 		Reply replyEntity = boardService.writeReply(principalDetail.getUser(), boardId, reply);
 		return new ResponseDto<Reply>(HttpStatus.OK.value(), replyEntity); // 200일 때 replyEntity 리턴한다.
 	}
+	
+	@DeleteMapping("/api/board/{boardId}/reply/{replyId}")
+	public ResponseDto<Integer> deleteReply(@PathVariable int boardId, @PathVariable int replyId) {
+		boardService.deleteReplyById(replyId);
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+	}
 }

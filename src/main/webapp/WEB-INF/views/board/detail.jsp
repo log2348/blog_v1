@@ -35,13 +35,18 @@
 	<div class="card">
 		<div class="card-header">댓글 목록</div>
 	</div>
-	<ul class="list-group" id="reply--box">
+	<!-- 오류방지를 위해 아이디에 하이픈(-) 하나 더 붙여준다 -->
+	<ul class="list-group" id="reply--box">	
 		<c:forEach var="reply" items="${board.replies}">
 		<li class="list-group-item d-flex justify-content-between" id="reply--${reply.id}">
 			<div>${reply.content}</div>
 			<div class="d-flex">
-				<div>작성자 : ${reply.user.username}&nbsp;&nbsp;</div> 
-				<button class="badge badge-danger">삭제</button>
+				<!-- 본인 댓글만 삭제할 수 있도록 처리 -->
+				<div>작성자 : ${reply.user.username}&nbsp;&nbsp;</div>
+				<c:if test="${reply.user.id eq principal.user.id}">
+					<button class="badge badge-danger" onclick="index.replyDelete(${board.id}, ${reply.id});">삭제</button>				
+				</c:if>
+				<!-- ajax 통신할 때는 이벤트 바인딩 onclick으로 처리! (렌더링 순서때문에 이벤트 핸들러가 등록이 안됨) -->
 			</div>
 		</li>
 		</c:forEach>
