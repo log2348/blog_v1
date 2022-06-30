@@ -39,7 +39,7 @@ public class DummyControllerTest {
 	// 페이징 처리
 	// http://localhost:8081/blog/dummy/user?page=0
 	@GetMapping("/dummy/user")
-	public Page<User> pageList(@PageableDefault(size = 2, sort = "id",
+	public Page<User> pageList(@PageableDefault(size = 1, sort = "id",
 			direction = Direction.DESC) Pageable pageable) {
 		// 한 페이지당 2개의 값을 들고와라
 
