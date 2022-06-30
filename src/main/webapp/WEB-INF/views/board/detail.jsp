@@ -4,6 +4,7 @@
 <%@ include file="../layout/header.jsp" %>
 
 <div class="container">
+	<input type="hidden" id="principal--id" value="${principal.user.id}">
 	<button class="btn bg-secondary" onclick="history.back();">돌아가기</button>
 	<c:if test="${board.userId.id == principal.user.id}">
 		<a href="/board/${board.id}/update_form" class="btn btn-warning">수정</a>
@@ -35,7 +36,7 @@
 	<div class="card">
 		<div class="card-header">댓글 목록</div>
 	</div>
-	<!-- 오류방지를 위해 아이디에 하이픈(-) 하나 더 붙여준다 -->
+	<!-- 오류방지를 위해 id에 하이픈(-) 하나 더 붙여준다 -->
 	<ul class="list-group" id="reply--box">	
 		<c:forEach var="reply" items="${board.replies}">
 		<li class="list-group-item d-flex justify-content-between" id="reply--${reply.id}">
@@ -54,7 +55,6 @@
 
 <br/><br/>
 </div>
-
 
 <script src="/js/board.js"></script>
 <%@ include file="../layout/footer.jsp" %>

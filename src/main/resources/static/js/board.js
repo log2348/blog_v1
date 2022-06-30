@@ -116,7 +116,7 @@ let index = {
 		})
 		.done(function(response) {
 			if(response.status) {
-				// if문 안에 숫자 들어오면 무조건 타고 있다.
+				// if문 안에 숫자 무조건 true 처리됨
 				// response - int status, T data
 				console.log("if : " + response.status);
 				console.log(response.data);
@@ -145,21 +145,25 @@ let index = {
 		.fail(function() {
 			console.log(response);
 			alert("댓글 삭제 실패");
-			
 		});
 	}
 	
 }
 
 function addReplyElement(reply) {
+	let principalId = $("#principal-id").val();
+	
 	let childElement = `<li class="list-group-item d-flex justify-content-between" id="reply--${reply.id}">
 			<div>${reply.content}</div>
 			<div class="d-flex">
-				<div>작성자 : ${reply.user.username}&nbsp;&nbsp;</div> 
-				<button class="badge badge-danger">삭제</button>
+				<div>작성자 : ${reply.user.username}&nbsp;&nbsp;</div>
+				<c:if test="${reply.user.id == principalId}">
+					<button class="badge badge-danger" onclick="index.replyDelete(${reply.board.id}, ${reply.id});">삭제</button>				
+				</c:if>
 			</div>
 		</li>`;
-		
+	
+	// === 데이터 타입까지 같은가
 	$("#reply--box").prepend(childElement); // 앞으로 붙임
 	$("#reply-content").val("");
 }
