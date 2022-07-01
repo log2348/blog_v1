@@ -74,5 +74,10 @@ public class BoardService {
 	public void deleteReplyById(int replyId) {
 		replyRepository.deleteById(replyId);
 	}
+	
+	@Transactional(readOnly = true)
+	public Page<Board> searchBoardByTitle(String title, Pageable pageable) {
+		return boardRepository.findByTitleContaining(title, pageable);
+	}
 
 }

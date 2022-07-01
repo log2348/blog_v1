@@ -24,11 +24,14 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
-	@GetMapping({"", "/"})
-	public String index(@PageableDefault(size=5, sort="id", direction = Direction.DESC) Pageable pageable,
-			Model model) {
+	// @RequestParam 안 써도 스프링에서 기본으로 key=value로 매핑됨
+	@GetMapping({"", "/", "/board/search"})
+	public String index(String q, Model model,
+			@PageableDefault(size=3, sort="id", direction = Direction.DESC) Pageable pageable) {
 		
-		Page<Board> pageBoards = boardService.getBoardList(pageable);
+		String searchTitle = q == null ? "" : q;
+		
+		Page<Board> pageBoards = boardService.searchBoardByTitle(searchTitle, pageable);
 		
 		/**
 		 * 
@@ -42,12 +45,12 @@ public class BoardController {
 		int startPage = Math.max(nowPage - 2, 1); // 두 int 값 중에 큰 값 반환
 		int endPage = Math.min(nowPage + 2, pageBoards.getTotalPages());
 		
-		System.out.println("-------------------------------------------");
+		/*
 		log.info("현재 화면의 블록 숫자(현재 페이지) : {}", nowPage);
 		log.info("현재 화면의 보여질 블록의 시작 번호 : {}", startPage);
 		log.info("현재 화면에 보여질 마지막 블록의 번호 : {}", endPage);
 		log.info("한 화면에 보여질 게시글 수 / 총 게시글 수 : {}", pageBoards.getTotalPages());
-		System.out.println("-------------------------------------------");
+		*/
 		
 		// 시작 페이지를 설정해야 한다
 
@@ -62,6 +65,7 @@ public class BoardController {
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("pageNumbers", pageNumbers);
+		model.addAttribute("searchTitle", searchTitle);
 		
 		return "index";
 	}
