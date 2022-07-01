@@ -23,6 +23,36 @@
 	<br/>
 	
  <script type="text/javascript">
+ /*
+	 function savePost() {
+	 	let title = document.querySelector("#title").value;
+	 	let content = document.querySelector("#content").value;
+	 	//let userId = document.querySelector('#userId').value;
+	 	
+	 	let board = {
+	 		title: title,
+	 		content: content
+	 	}
+	 	
+	 fetch("/blog/savePost", {
+	 	method: "post",
+	 	headers: {
+	 		'content-type': 'application/json; charset=utf-8'
+	 	},
+	 	body: JSON.stringify(board)
+	 })
+	 .then(res => res.text())
+	 .then(res => {
+	 	if(res == "ok") {
+	 		alert("글쓰기 성공");
+	 		location.href = "/";
+	 	} else {
+	 		alert("글쓰기 실패");
+	 	}
+	 });  
+	 
+	 }
+*/   
  	$('.summernote').summernote({
      placeholder: '내용을 입력해주세요',
      tabsize: 5,
