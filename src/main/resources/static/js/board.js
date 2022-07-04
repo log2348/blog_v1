@@ -21,10 +21,12 @@ let index = {
 	},
 	
 	save: function() {
+		let token = $("meta[name='_csrf']").attr("content");
+		let header = $("meta[name='_csrf_header']").attr("content");
 		
 		// 데이터 가져오기
 		let data = {
-			title: $("#title").val(),
+			title: xssCheck($("#title").val(), 1),
 			content: $("#content").val()
 		}
 		
@@ -32,13 +34,17 @@ let index = {
 		console.log(data);
 		
 		$.ajax({
+			beforeSend : function(xhr) {
+				xhr.setRequestHeader(header, token);
+			},
+			
 			type: "POST",
 			url: "/api/board",
 			data: JSON.stringify(data),
 			contentType: "application/json; charset=utf-8",
 			dataType: "json"
 		})
-		.done(function(data, textStatus, xhr) {
+		.done(function(data) {
 			if(data.status) {
 				alert("글쓰기가 완료되었습니다.");
 				location.href = "/";
@@ -52,7 +58,14 @@ let index = {
 	deleteById: function() {
 		let id = $("#board-id").text();
 		
+		let token = $("meta[name='_csrf']").attr("content");
+		let header = $("meta[name='_csrf_header']").attr("content");
+		
 		$.ajax({
+			beforeSend : function(xhr) {
+			xhr.setRequestHeader(header, token);
+			},
+			
 			type:"DELETE",
 			url: "/api/board/" + id // 페이지x 데이터 리턴
 		}) 
@@ -96,6 +109,13 @@ let index = {
 	
 	// 댓글 등록
 	replySave: function() {
+		
+		// csrf 활성화 후에는 헤더에 token 값을 넣어야 정상 동작된다.
+		let token = $("meta[name='_csrf']").attr("content");
+		let header = $("meta[name='_csrf_header']").attr("content");
+		
+		console.log("token : " + token);
+		console.log("header : " + header);
 
 		// 데이터 가져오기 (boardId : 해당 게시글 id)
 		let data = {
@@ -108,6 +128,11 @@ let index = {
 		
 		// ``백틱 (자바스크립트 변수를 문자열 안에 넣어서 사용할 수 있다.)
 		$.ajax({
+			beforeSend : function(xhr) {
+				console.log("xhr : " + xhr);
+				xhr.setRequestHeader(header, token);
+			},
+			
 			type: "POST",
 			url: `/api/board/${data.boardId}/reply`,
 			data: JSON.stringify(data),
@@ -166,6 +191,17 @@ function addReplyElement(reply) {
 	// === 데이터 타입까지 같은가
 	$("#reply--box").prepend(childElement); // 앞으로 붙임
 	$("#reply-content").val("");
+}
+
+// 스크립트단에서 xss 막기
+function xssCheck(str, level) {
+    if (level == undefined || level == 0) {
+        str = str.replace(/\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-/g,"");
+    } else if (level != undefined && level == 1) {
+        str = str.replace(/\</g, "&lt;");
+        str = str.replace(/\>/g, "&gt;");
+    }
+    return str;
 }
 
 index.init();
