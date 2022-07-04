@@ -83,12 +83,19 @@ let index = {
 	update: function() {
 		let boardId = $("#id").val();
 		
+		let token = $("meta[name='_csrf']").attr("content");
+		let header = $("meta[name='_csrf_header']").attr("content");
+		
 		let data = {
 			title: $("#title").val(),
 			content: $("#content").val()
 		}
 		
 		$.ajax({
+			beforeSend : function(xhr) {
+			xhr.setRequestHeader(header, token);
+			},
+			
 			type: "PUT",
 			url: "/api/board/" + boardId,
 			data: JSON.stringify(data),
@@ -157,7 +164,15 @@ let index = {
 	
 	replyDelete: function(boardId, replyId) {
 		
+		let token = $("meta[name='_csrf']").attr("content");
+		let header = $("meta[name='_csrf_header']").attr("content");
+		
 		$.ajax({
+			beforeSend : function(xhr) {
+				console.log("xhr : " + xhr);
+				xhr.setRequestHeader(header, token);
+			},
+			
 			type: "DELETE",
 			url: `/api/board/${boardId}/reply/${replyId}`,
 			dataType: "json"

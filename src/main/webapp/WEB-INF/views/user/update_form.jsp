@@ -9,15 +9,16 @@
 			<input type="text" value="${principal.user.username}" id="username" name="username" class="form-control" readonly="readonly">
 		</div>
 		
+		<c:if test="${empty principal.user.oauth}">
 		<div class="form-group">
 			<label for="password">password: </label>
 			<input type="password" value="" id="password" name="password" class="form-control">
 		</div>
-		
 		<div class="form-group">
 			<label for="email">email: </label>
 			<input type="email" value="${principal.user.email}" id="email" name="email" class="form-control">
 		</div>
+		</c:if>
 		
 		<button type="button" class="btn btn-primary" id="btn-update">회원정보 수정</button>
 	</form>
