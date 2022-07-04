@@ -22,7 +22,6 @@ let index = {
 			password:$("#password").val(),
 			email: $("#email").val()
 		}
-		// console.log(data);
 		
 		// ajax 호출
 		$.ajax({

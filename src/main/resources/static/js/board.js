@@ -63,7 +63,7 @@ let index = {
 		
 		$.ajax({
 			beforeSend : function(xhr) {
-			xhr.setRequestHeader(header, token);
+				xhr.setRequestHeader(header, token);
 			},
 			
 			type:"DELETE",
@@ -93,7 +93,7 @@ let index = {
 		
 		$.ajax({
 			beforeSend : function(xhr) {
-			xhr.setRequestHeader(header, token);
+				xhr.setRequestHeader(header, token);
 			},
 			
 			type: "PUT",
