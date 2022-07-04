@@ -9,6 +9,7 @@ import javax.servlet.ServletResponse;
 
 import com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter;
 
+// 기존 클래스 기능 수정, 추가해서 사용하고 싶을 때 상속받아서 커스텀하기
 public class MyXssEscapeServletFilter extends XssEscapeServletFilter {
 
 	@Override
