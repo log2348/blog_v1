@@ -42,11 +42,8 @@ public class StoryService {
 		// 정규 표현식에서 \s는 공백을 의미함
 		String newFileName = (imageFileName.trim()).replaceAll("\\s", "");
 		
-		System.out.println("파일명 : " + imageFileName.trim());
-		
 		// 서버 컴퓨터의 Path를 가지고 와야 한다.
 		Path imageFilePath = Paths.get(uploadFolder + newFileName);
-		System.out.println("파일명 : " + newFileName);
 		
 		try {
 			Files.write(imageFilePath, fileDto.getFile().getBytes());

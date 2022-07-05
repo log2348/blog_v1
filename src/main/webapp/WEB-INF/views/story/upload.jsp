@@ -2,6 +2,7 @@
 <%@ include file="../layout/header.jsp"%>
 
 <main class="container py-5">
+
 	<div>
 		<!-- 문자열과 바이너리 타입 동시에 보낼 때 반드시 enctype="multipart/form-data" 지정-->
 		<form action="/story/image/upload" enctype="multipart/form-data" method="post">
