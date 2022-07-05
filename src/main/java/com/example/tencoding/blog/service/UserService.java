@@ -61,6 +61,7 @@ public class UserService {
 			return new IllegalArgumentException("회원정보가 없습니다.");
 		});
 			
+		// 소셜 유저는 password 공통으로 쓰기 때문에 뚫리면 안된다.
 		if(userEntity.getOauth() == null || userEntity.getOauth() == "")  {
 			// 해시 암호화 처리
 			String rawPassword = user.getPassword();
