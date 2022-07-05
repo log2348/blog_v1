@@ -39,7 +39,7 @@ public class StoryService {
 		UUID uuid = UUID.randomUUID();
 		String imageFileName = uuid + "_" + "story";
 		
-		// 정규 표현식에서 \\s는 공백을 의미함
+		// 정규 표현식에서 \s는 공백을 의미함
 		String newFileName = (imageFileName.trim()).replaceAll("\\s", "");
 		
 		System.out.println("파일명 : " + imageFileName.trim());
