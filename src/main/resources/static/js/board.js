@@ -21,6 +21,7 @@ let index = {
 	},
 	
 	save: function() {
+		// csrf 활성화 후에는 헤더에 token 값을 넣어야 정상 동작 된다. 
 		let token = $("meta[name='_csrf']").attr("content");
 		let header = $("meta[name='_csrf_header']").attr("content");
 		
@@ -143,7 +144,7 @@ let index = {
 			type: "POST",
 			url: `/api/board/${data.boardId}/reply`,
 			data: JSON.stringify(data),
-			contentType: "application/json; charset=utf-8",
+			contentType: "application/json; charset=utf-8", // meta type
 			dataType: "json"
 		})
 		.done(function(response) {
